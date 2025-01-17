@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лента постов</title>
+    <style>
+        .wrapper {
+            width: 1000px;
+            margin: auto;
+        }
+
+        .tag {
+            display: inline;
+            margin: 0 4px;
+            background-color: #3498db;
+            font-weight: bold;
+            color: white;
+            padding: 3px;
+            border-radius: 5px;
+        }
+
+        .comment {
+            display: block;
+            height: 100px;
+            margin: 0 5px;
+            border: dimgray 1px dashed;
+        }
+
+        .post {
+            display: block;
+            margin: 10px;
+            padding: 5px;
+            width: 960px;
+            border: dimgray 1px dotted;
+            font-size: 28px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <h2 th:text="${post.name} + ' (#' + ${post.id} + ')'"></h2>
+    <div class="image"><img width="200px" th:src="${post.image}"></div>
+    <div>
+        <div class="likes"><strong>Likes:</strong>
+            <th:block th:text="${post.likes}"/>
+        </div>
+        <div class="tags"><strong>Tags:</strong>
+            <th:block th:text="${post.tags}"/>
+        </div>
+    </div>
+    <div class="post">
+        <p th:text="${post.text}"/>
+    </div>
+    <div><strong>Comments:</strong></div>
+    <div th:each="comment : ${post.comments}">
+        <div class="comment" th:text="${comment.text}"/>
+    </div>
+</div>
+</body>
+</html>

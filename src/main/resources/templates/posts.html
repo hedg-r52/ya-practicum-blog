@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лента постов</title>
+    <style>
+        .wrapper {
+            width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            margin-left: 10px;
+        }
+
+        .posts {
+            margin: auto;
+        }
+
+        .post-short {
+            display: block;
+            margin: 10px;
+            padding: 5px;
+            width: 960px;
+            border: dimgray 1px dotted;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .content {
+            display: inline-block;
+            width: 700px;
+            margin: 0 5px;
+            font-size: 28px;
+        }
+
+        .image {
+            display: inline-block;
+            width: 200px;
+            height: 200px;
+            margin: 0 5px;
+        }
+
+        .likes {
+            display: inline-block;
+            margin-right: 5px;
+            padding-right: 10px;
+            border-right: 3px solid #32a1ce;
+        }
+
+        .comments {
+            display: inline-block;
+            margin-right: 5px;
+            padding-right: 10px;
+            border-right: 3px solid #32a1ce;
+        }
+
+        .tags {
+            display: inline-block;
+        }
+
+        .input-filter {
+            margin-left: 10px;
+        }
+
+        .add-post-button {
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 10px;
+            text-decoration: none;
+            margin: 5px;
+            color: #fff;
+            background-color: #3498db;
+            position: relative;
+            display: inline-block;
+        }
+
+        .delete-button {
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 10px;
+            text-decoration: none;
+            margin: 5px;
+            color: #fff;
+            position: relative;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <h1>Лента постов</h1>
+    <div>
+        <form th:action="@{/post/search}" method="post" style="display:inline;">
+            <label for="name">Фильтр: </label>
+            <input class="input-filter" type="text" name="name" id="name" th:value="${name}" placeholder="Фильтр">
+
+            <button class="search-button" type="submit">Поиск</button>
+        </form>
+        <form th:action="@{/post}" method="get" style="display: inline-block">
+            <button th:text="Clear" type="submit"/>
+        </form>
+    </div>
+    <div>
+        <button class="add-post-button" onclick="alert('add post alert')">Добавить пост</button>
+    </div>
+    <strong style="margin: 10px">Pages: </strong>
+    <span th:if="${posts.totalPages > 0}" class="pagination" th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/post(size=${posts.size}, page=${pageNumber})}"
+           th:text=${pageNumber}
+           th:class="${pageNumber==posts.number + 1} ? active"></a>
+    </span>
+    <div class="posts">
+        <div class="post-short" th:each="post : ${posts}">
+            <h2 style="display: inline-block;"><a th:text="${post.name}" th:href="@{/post/{id}(id=${post.id})}"></a></h2>
+            <form th:action="@{/post/{id}(id=${post.id})}" method="post" style="display:inline;">
+                <input type="hidden" name="_method" value="delete" />
+                <button class="delete-button" type="submit">&#x274C</button>
+            </form>
+            <div class="content-wrapper">
+                <div class="content" th:text="${post.text}"></div>
+                <div class="image"><img width="200px" th:src="${post.image}"></div>
+            </div>
+            <br>
+            <div>
+                <div class="likes"><strong>Likes:</strong>
+                    <th:block th:text="${post.likes}"/>
+                </div>
+                <div class="comments"><strong>Comments:</strong>
+                    <th:block th:text="${post.comments}"/>
+                </div>
+                <div class="tags"><strong>Tags:</strong>
+                    <th:block th:text="${post.tags}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
