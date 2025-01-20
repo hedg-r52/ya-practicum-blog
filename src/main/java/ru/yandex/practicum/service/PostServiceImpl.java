@@ -120,18 +120,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional
-    public void delete(Post post) {
-        post.getComments().forEach(comment -> commentRepository.delete(comment.getId()));
-        postRepository.delete(post.getId());
-    }
-
-    @Override
-    @Transactional
     public void delete(Long id) {
-        Post post = postRepository.getPost(id);
-        post.getComments().forEach(comment -> commentRepository.delete(comment.getId()));
-        postRepository.delete(post.getId());
+        postRepository.delete(id);
     }
 
     @Override

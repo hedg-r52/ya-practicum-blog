@@ -17,8 +17,6 @@ public interface TagRepository {
 
     void save(String tag);
 
-    void delete(Long id);
-
     List<String> findAbsentTags(List<String> tagNames);
 
 }

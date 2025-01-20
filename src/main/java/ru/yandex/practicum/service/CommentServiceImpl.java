@@ -1,7 +1,6 @@
 package ru.yandex.practicum.service;
 
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.domain.Comment;
 import ru.yandex.practicum.dto.CommentDto;
 import ru.yandex.practicum.mapper.CommentMapper;
 import ru.yandex.practicum.repository.CommentRepository;

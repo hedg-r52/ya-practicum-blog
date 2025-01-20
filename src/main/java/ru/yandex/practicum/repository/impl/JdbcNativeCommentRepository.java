@@ -20,12 +20,12 @@ public class JdbcNativeCommentRepository implements CommentRepository {
 
     @Override
     public List<Comment> getCommentsByPostId(Long postId) {
-        SqlParameterSource parameters = new MapSqlParameterSource("parent_id", postId);
+        SqlParameterSource parameters = new MapSqlParameterSource("post_id", postId);
         return jdbcTemplate.query(
-                "select parent_id, id, text from comments where parent_id = :parent_id",
+                "select post_id, id, text from comments where post_id = :post_id",
                 parameters,
                 (rs, rowNum) -> new Comment(
-                        rs.getLong("parent_id"),
+                        rs.getLong("post_id"),
                         rs.getLong("id"),
                         rs.getString("text")
                 )
@@ -38,17 +38,17 @@ public class JdbcNativeCommentRepository implements CommentRepository {
 
         SqlParameterSource parameters = new MapSqlParameterSource("ids", idList);
         List<Comment> comments = jdbcTemplate.query(
-                "select parent_id, id, text from comments where parent_id in (:ids)",
+                "select post_id, id, text from comments where post_id in (:ids)",
                 parameters,
                 (rs, rowNum) -> new Comment(
-                        rs.getLong("parent_id"),
+                        rs.getLong("post_id"),
                         rs.getLong("id"),
                         rs.getString("text")
                 )
         );
         comments.forEach(comment -> {
-            result.putIfAbsent(comment.getParentId(), new ArrayList<Comment>());
-            result.get(comment.getParentId()).add(comment);
+            result.putIfAbsent(comment.getPostId(), new ArrayList<Comment>());
+            result.get(comment.getPostId()).add(comment);
         });
         return result;
     }
@@ -57,10 +57,10 @@ public class JdbcNativeCommentRepository implements CommentRepository {
     public Comment getById(Long id) {
         SqlParameterSource parameters = new MapSqlParameterSource("id", id);
         return jdbcTemplate.queryForObject(
-                "select parent_id, id, text from comments where id = :id",
+                "select post_id, id, text from comments where id = :id",
                 parameters,
                 (rs, rowNum) -> new Comment(
-                        rs.getLong("parent_id"),
+                        rs.getLong("post_id"),
                         rs.getLong("id"),
                         rs.getString("text")
                 )
@@ -70,11 +70,11 @@ public class JdbcNativeCommentRepository implements CommentRepository {
     @Override
     public void save(Comment comment) {
         MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("parent_id", comment.getParentId());
+        parameters.addValue("post_id", comment.getPostId());
         parameters.addValue("text", comment.getText());
 
         jdbcTemplate.update(
-                "insert into comments(parent_id, text) values(:parent_id, :text)",
+                "insert into comments(post_id, text) values(:post_id, :text)",
                 parameters
         );
     }
@@ -83,11 +83,11 @@ public class JdbcNativeCommentRepository implements CommentRepository {
     public Comment update(Comment comment) {
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("id", comment.getId());
-        parameters.addValue("parent_id", comment.getParentId());
+        parameters.addValue("post_id", comment.getPostId());
         parameters.addValue("text", comment.getText());
 
         jdbcTemplate.update(
-                "update comments set parent_id = :parent_id, text = :text where id = :id",
+                "update comments set post_id = :post_id, text = :text where id = :id",
                 parameters
         );
         return comment;

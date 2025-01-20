@@ -64,18 +64,18 @@
     <div th:each="comment : ${post.comments}">
         <div class="comment" th:text="${comment.text}"/>
         <!--/*@thymesVar id="comment" type="ru.yandex.practicum.dto.CommentDto"*/-->
-        <form th:action="@{/post/{postId}/comment/{id}(postId=${post.id},id=${comment.id})}" method="post" style="display:inline;">
+        <form th:action="@{/comment/{id}/post/{postId}(postId=${post.id},id=${comment.id})}" method="post" style="display:inline;">
             <button class="delete-button" type="submit">&#x274C</button>
         </form>
     </div>
     <div class="form-container" style="display: none;" id="commentForm">
         <h3>Добавить комментарий</h3>
         <!--/*@thymesVar id="newComment" type="ru.yandex.practicum.dto.CommentDto"*/-->
-        <form action="#"  th:action="@{/post/comment}" method="post" th:object="${newComment}">
+        <form action="#"  th:action="@{/comment}" method="post" th:object="${newComment}">
             <label for="commentText">Комментарий: </label>
             <br>
             <textarea cols="80" rows="5" id="commentText" name="text"  required="required"></textarea>
-            <input type="hidden" name="parentId" th:value="${post.id}" />
+            <input type="hidden" name="postId" th:value="${post.id}" />
             <button type="submit">Добавить</button>
         </form>
     </div>

@@ -11,14 +11,8 @@ CREATE TABLE IF NOT EXISTS posts
 CREATE TABLE IF NOT EXISTS comments
 (
     id        BIGINT AUTO_INCREMENT PRIMARY KEY,
-    parent_id BIGINT       NOT NULL,
+    post_id   BIGINT       NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
     text      VARCHAR(512) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS post_tags
-(
-    post_id BIGINT NOT NULL,
-    tag_id  BIGINT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tags
@@ -26,6 +20,14 @@ CREATE TABLE IF NOT EXISTS tags
     id  BIGINT AUTO_INCREMENT PRIMARY KEY,
     tag VARCHAR(20)
 );
+
+CREATE TABLE IF NOT EXISTS post_tags
+(
+    post_id BIGINT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+    tag_id  BIGINT NOT NULL REFERENCES tags(id) ON DELETE CASCADE
+);
+
+
 
 -- Посты
 INSERT INTO posts(name, image, content, likes)
@@ -96,33 +98,33 @@ VALUES (
         'Каждый из нас понимает очевидную вещь: семантический разбор внешних противодействий требует от нас анализа системы массового участия. Для современного мира укрепление и развитие внутренней структуры говорит о возможностях первоочередных требований. Значимость этих проблем настолько очевидна, что синтетическое тестирование создаёт предпосылки для экономической целесообразности принимаемых решений. Разнообразный и богатый опыт говорит нам, что постоянное информационно-пропагандистское обеспечение нашей деятельности однозначно фиксирует необходимость приоретизации разума над эмоциями. В своём стремлении улучшить пользовательский опыт мы упускаем, что активно развивающиеся страны третьего мира призывают нас к новым свершениям, которые, в свою очередь, должны быть ограничены исключительно образом мышления. В своём стремлении повысить качество жизни, они забывают, что экономическая повестка сегодняшнего дня создаёт предпосылки для системы обучения кадров, соответствующей насущным потребностям. Также как экономическая повестка сегодняшнего дня создаёт необходимость включения в производственный план целого ряда внеочередных мероприятий с учётом комплекса новых предложений! Господа, убеждённость некоторых оппонентов способствует подготовке и реализации существующих финансовых и административных условий. А также предприниматели в сети интернет ассоциативно распределены по отраслям. Предварительные выводы неутешительны: современная методология разработки обеспечивает широкому кругу (специалистов) участие в формировании анализа существующих паттернов поведения.',
         10);
 -- Комментарии
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES (1, 'Коммент #1 к первому посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES (1, 'Коммент #2 к первому посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES (2, 'Коммент #3 к второму посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES (2, 'Коммент #4 к второму посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES (3, 'Коммент #5 к третьему посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES (3, 'Коммент #6 к третьему посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES (4, 'Коммент #7 к четвертому посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES (5, 'Коммент #8 к пятому посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES (6, 'Коммент #9 к шестому посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES ( 7, 'Коммент #10 к седьмому посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES ( 8, 'Коммент #11 к восьмому посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES ( 9, 'Коммент #12 к девятому посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES ( 10, 'Коммент #13 к десятому посту');
-INSERT INTO comments(parent_id, text)
+INSERT INTO comments(post_id, text)
 VALUES ( 11, 'Коммент #14 к одиннадцатому посту');
 
 

@@ -15,11 +15,9 @@ public class PostMapper {
 
     private final int SHORT_POSTS_LENGTH = 250;
     private final CommentMapper commentMapper;
-    private final TagMapper tagMapper;
 
-    public PostMapper(CommentMapper commentMapper, TagMapper tagMapper) {
+    public PostMapper(CommentMapper commentMapper) {
         this.commentMapper = commentMapper;
-        this.tagMapper = tagMapper;
     }
 
     public PostDto toPostDto(Post post) {

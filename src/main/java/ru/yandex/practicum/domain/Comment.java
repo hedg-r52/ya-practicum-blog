@@ -1,24 +1,24 @@
 package ru.yandex.practicum.domain;
 
 public class Comment {
-    private Long parentId;
+    private Long postId;
     private Long id;
     private String text;
 
     public Comment() {}
 
-    public Comment(Long parentId, Long id, String text) {
-        this.parentId = parentId;
+    public Comment(Long postId, Long id, String text) {
+        this.postId = postId;
         this.id = id;
         this.text = text;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public Long getPostId() {
+        return postId;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 
     public Long getId() {

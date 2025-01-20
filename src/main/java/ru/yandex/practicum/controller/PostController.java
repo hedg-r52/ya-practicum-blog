@@ -6,10 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.dto.CommentDto;
 import ru.yandex.practicum.dto.PostDto;
 import ru.yandex.practicum.dto.PostShortDto;
-import ru.yandex.practicum.service.CommentService;
 import ru.yandex.practicum.service.PostService;
 import ru.yandex.practicum.service.TagService;
 
@@ -23,12 +21,10 @@ public class PostController {
     private final int LIMIT = 5;
     private final PostService postService;
     private final TagService tagService;
-    private final CommentService commentService;
 
-    public PostController(PostService postService, TagService tagService, CommentService commentService) {
+    public PostController(PostService postService, TagService tagService) {
         this.postService = postService;
         this.tagService = tagService;
-        this.commentService = commentService;
     }
 
     @GetMapping
@@ -50,8 +46,6 @@ public class PostController {
         }
         return "posts";
     }
-
-
 
     @GetMapping("/{id}")
     public String postDetail(@PathVariable("id") Long id, Model model) {
@@ -101,20 +95,6 @@ public class PostController {
         PostDto saved = postService.save(post);
         tagService.saveTags(post.getTags(), saved.getId());
         return "redirect:/post";
-    }
-
-    @PostMapping("/comment")
-    public String addComment(@ModelAttribute("newComment") CommentDto comment) {
-        commentService.save(comment);
-        return "redirect:/post/" + comment.getParentId();
-    }
-
-    @PostMapping(value = "/{postId}/comment/{id}")
-    public String deleteComment(
-            @PathVariable(name = "postId") Long postId,
-            @PathVariable(name = "id") Long id) {
-        commentService.delete(id);
-        return "redirect:/post/" + postId;
     }
 
     @PostMapping(value = "/{id}/like")

@@ -115,11 +115,6 @@ public class JdbcNativeTagRepository implements TagRepository {
     }
 
     @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
     public List<String> findAbsentTags(List<String> tagNames) {
         List<String> result = new ArrayList<>(tagNames);
         SqlParameterSource parameters = new MapSqlParameterSource("tags", tagNames);
