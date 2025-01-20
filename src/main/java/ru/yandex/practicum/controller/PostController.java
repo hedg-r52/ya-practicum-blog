@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 @Controller
 @RequestMapping("/post")
 public class PostController {
-    private final int LIMIT = 5;
+    private final int DEFAULT_PAGE_SIZE = 10;
     private final PostService postService;
     private final TagService tagService;
 
@@ -33,7 +33,7 @@ public class PostController {
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size) {
         int currentPage = page.orElse(1);
-        int pageSize = size.orElse(LIMIT);
+        int pageSize = size.orElse(DEFAULT_PAGE_SIZE);
 
         Page<PostShortDto> posts = postService.findAll(PageRequest.of(currentPage - 1, pageSize));
         model.addAttribute("posts", posts);
@@ -70,7 +70,7 @@ public class PostController {
         }
 
         int currentPage = page.orElse(1);
-        int pageSize = size.orElse(LIMIT);
+        int pageSize = size.orElse(DEFAULT_PAGE_SIZE);
 
         Page<PostShortDto> posts = postService.findAllFilteredByTag(tag, PageRequest.of(currentPage - 1, pageSize));
         model.addAttribute("posts", posts);
