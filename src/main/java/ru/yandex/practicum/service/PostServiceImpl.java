@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.domain.Tag;
 import ru.yandex.practicum.dto.PostDto;
 import ru.yandex.practicum.dto.PostShortDto;
@@ -104,6 +105,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public PostDto save(PostDto postDto) {
         Long id = postRepository.save(postMapper.toPost(postDto));
         postDto.setId(id);
@@ -111,18 +113,21 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public PostDto update(PostDto postDto) {
         postRepository.update(postMapper.toPost(postDto));
         return postDto;
     }
 
     @Override
+    @Transactional
     public void delete(Post post) {
         post.getComments().forEach(comment -> commentRepository.delete(comment.getId()));
         postRepository.delete(post.getId());
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Post post = postRepository.getPost(id);
         post.getComments().forEach(comment -> commentRepository.delete(comment.getId()));
@@ -130,6 +135,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public void increaseLikeCount(Long id) {
         postRepository.increaseLikesCount(id);
     }
