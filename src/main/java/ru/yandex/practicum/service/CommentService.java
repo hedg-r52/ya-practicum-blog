@@ -1,6 +1,5 @@
 package ru.yandex.practicum.service;
 
-import ru.yandex.practicum.domain.Comment;
 import ru.yandex.practicum.dto.CommentDto;
 
 import java.util.List;
@@ -11,10 +10,10 @@ public interface CommentService {
 
     CommentDto findById(Long id);
 
-    CommentDto save(Comment comment);
+    CommentDto save(CommentDto comment);
 
-    CommentDto update(Comment comment);
+    CommentDto update(CommentDto comment);
 
-    void delete(Comment comment);
+    void delete(CommentDto comment);
 
 }

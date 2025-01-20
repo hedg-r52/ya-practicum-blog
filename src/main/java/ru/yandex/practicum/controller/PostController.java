@@ -5,9 +5,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.domain.Comment;
 import ru.yandex.practicum.domain.Post;
+import ru.yandex.practicum.dto.CommentDto;
 import ru.yandex.practicum.dto.PostDto;
 import ru.yandex.practicum.dto.PostShortDto;
+import ru.yandex.practicum.service.CommentService;
 import ru.yandex.practicum.service.PostService;
 import ru.yandex.practicum.service.TagService;
 
@@ -21,10 +24,12 @@ public class PostController {
     private final int LIMIT = 5;
     private final PostService postService;
     private final TagService tagService;
+    private final CommentService commentService;
 
-    public PostController(PostService postService, TagService tagService) {
+    public PostController(PostService postService, TagService tagService, CommentService commentService) {
         this.postService = postService;
         this.tagService = tagService;
+        this.commentService = commentService;
     }
 
     @GetMapping
@@ -95,8 +100,13 @@ public class PostController {
     @PostMapping(value = "/add")
     public String add(@ModelAttribute("post") PostDto post) {
         PostDto saved = postService.save(post);
-        // как узнать номер вставленной записи
         tagService.saveTags(post.getTags(), saved.getId());
         return "redirect:/post";
+    }
+
+    @PostMapping("/comment")
+    public String addComment(@ModelAttribute("newComment") CommentDto comment) {
+        commentService.save(comment);
+        return "redirect:/post/" + comment.getParentId();
     }
 }

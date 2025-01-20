@@ -1,17 +1,28 @@
 package ru.yandex.practicum.dto;
 
 public final class CommentDto {
-    private  Long id;
-    private  String text;
+    private Long parentId;
+    private Long id;
+    private String text;
 
     public CommentDto() {}
 
     public CommentDto(
+            Long parentId,
             Long id,
             String text
     ) {
+        this.parentId = parentId;
         this.id = id;
         this.text = text;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public Long getId() {

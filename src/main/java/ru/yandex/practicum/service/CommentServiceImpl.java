@@ -32,19 +32,19 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDto save(Comment comment) {
-        commentRepository.save(comment);
-        return commentMapper.toCommentDto(comment);
+    public CommentDto save(CommentDto commentDto) {
+        commentRepository.save(commentMapper.toComment(commentDto));
+        return commentDto;
     }
 
     @Override
-    public CommentDto update(Comment comment) {
-        commentRepository.update(comment);
-        return commentMapper.toCommentDto(comment);
+    public CommentDto update(CommentDto commentDto) {
+        commentRepository.update(commentMapper.toComment(commentDto));
+        return commentDto;
     }
 
     @Override
-    public void delete(Comment comment) {
-        commentRepository.delete(comment);
+    public void delete(CommentDto commentDto) {
+        commentRepository.delete(commentMapper.toComment(commentDto));
     }
 }

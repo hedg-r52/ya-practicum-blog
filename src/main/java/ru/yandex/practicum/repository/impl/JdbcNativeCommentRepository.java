@@ -70,12 +70,11 @@ public class JdbcNativeCommentRepository implements CommentRepository {
     @Override
     public void save(Comment comment) {
         MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("id", comment.getId());
         parameters.addValue("parent_id", comment.getParentId());
         parameters.addValue("text", comment.getText());
 
         jdbcTemplate.update(
-                "insert into comments(id, parent_id, text) values(:id, :parent_id, :text)",
+                "insert into comments(parent_id, text) values(:parent_id, :text)",
                 parameters
         );
     }

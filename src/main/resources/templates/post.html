@@ -56,6 +56,24 @@
     <div th:each="comment : ${post.comments}">
         <div class="comment" th:text="${comment.text}"/>
     </div>
+    <div class="form-container" style="display: none;" id="commentForm">
+        <h3>Добавить комментарий</h3>
+        <!--/*@thymesVar id="newComment" type="ru.yandex.practicum.dto.CommentDto"*/-->
+        <form action="#"  th:action="@{/post/comment}" method="post" th:object="${newComment}">
+            <label for="commentText">Комментарий: </label>
+            <br>
+            <textarea cols="80" rows="5" id="commentText" name="text"  required="required"></textarea>
+            <input type="hidden" name="parentId" th:value="${post.id}" />
+            <button type="submit">Добавить</button>
+        </form>
+    </div>
+    <button class="btn-add" onclick="toggleForm()">Добавить коммент</button>
 </div>
+<script>
+    function toggleForm() {
+        const form = document.getElementById('commentForm');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
 </body>
 </html>

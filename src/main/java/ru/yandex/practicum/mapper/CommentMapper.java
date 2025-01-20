@@ -9,6 +9,7 @@ public class CommentMapper {
 
     public CommentDto toCommentDto(Comment comment) {
         return new CommentDto(
+                comment.getParentId(),
                 comment.getId(),
                 comment.getText()
         );
@@ -16,6 +17,7 @@ public class CommentMapper {
 
     public Comment toComment(CommentDto commentDto) {
         Comment comment = new Comment();
+        comment.setParentId(commentDto.getParentId());
         comment.setId(commentDto.getId());
         comment.setText(commentDto.getText());
         return comment;
