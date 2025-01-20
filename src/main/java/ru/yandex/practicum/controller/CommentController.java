@@ -31,4 +31,10 @@ public class CommentController {
         commentService.delete(id);
         return "redirect:/post/" + postId;
     }
+
+    @PostMapping(value = "/edit")
+    public String editComment(@ModelAttribute("editedComment") CommentDto comment) {
+        commentService.update(comment);
+        return "redirect:/post/" + comment.getPostId();
+    }
 }

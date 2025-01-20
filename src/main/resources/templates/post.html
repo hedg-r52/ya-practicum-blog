@@ -62,7 +62,18 @@
     </div>
     <div><strong>Comments:</strong></div>
     <div th:each="comment : ${post.comments}">
-        <div class="comment" th:text="${comment.text}"/>
+        <div class="comment comment-static" id="comment-static" th:text="${comment.text}" style="display: block;"/>
+        <div class="comment-edit-form" id="comment-edit-form"  style="display: none;">
+            <form action="#"  th:action="@{/comment/edit}" method="post" th:object="${editedComment}">
+                <label for="commentEdited">Редактирование комментария: </label>
+                <br>
+                <textarea cols="80" rows="5" id="commentEdited" name="text" th:text="${comment.text}" required="required"></textarea>
+                <input type="hidden" name="id" th:value="${comment.id}" />
+                <input type="hidden" name="postId" th:value="${post.id}" />
+                <button type="submit">Редактировать</button>
+            </form>
+        </div>
+        <button onclick="toggleEditCommentForm()">&#x270E</button>
         <!--/*@thymesVar id="comment" type="ru.yandex.practicum.dto.CommentDto"*/-->
         <form th:action="@{/comment/{id}/post/{postId}(postId=${post.id},id=${comment.id})}" method="post" style="display:inline;">
             <button class="delete-button" type="submit">&#x274C</button>
@@ -95,6 +106,13 @@
         xhr.open("POST", window.location.href + '/like', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send();
+    }
+    function toggleEditCommentForm() {
+        const editForm = document.getElementById('comment-edit-form');
+        const comment = document.getElementById('comment-static');
+        console.log(editForm, comment);
+        comment.style.display = editForm.style.display === 'block' ? 'block' : 'none';
+        editForm.style.display = editForm.style.display === 'none' ? 'block' : 'none';
     }
 </script>
 </body>

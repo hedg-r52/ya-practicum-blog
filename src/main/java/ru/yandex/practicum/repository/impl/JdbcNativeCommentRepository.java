@@ -83,11 +83,10 @@ public class JdbcNativeCommentRepository implements CommentRepository {
     public Comment update(Comment comment) {
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("id", comment.getId());
-        parameters.addValue("post_id", comment.getPostId());
         parameters.addValue("text", comment.getText());
 
         jdbcTemplate.update(
-                "update comments set post_id = :post_id, text = :text where id = :id",
+                "update comments set text = :text where id = :id",
                 parameters
         );
         return comment;
