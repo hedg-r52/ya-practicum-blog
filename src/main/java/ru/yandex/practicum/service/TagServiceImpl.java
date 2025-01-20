@@ -23,6 +23,7 @@ public class TagServiceImpl implements TagService {
         List<String> tagsForAdding = tagRepository.findAbsentTags(tagsList);
         tagsForAdding.forEach(tagRepository::save);
         List<Tag> tagsByNames = tagRepository.findTagsByNames(tagsList);
+        tagRepository.removeAllRelationForPost(postId);
         tagRepository.addRelationTagsAndPost(tagsByNames, postId);
     }
 }

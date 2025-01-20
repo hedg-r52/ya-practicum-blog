@@ -93,12 +93,9 @@
 </div>
 <script>
     const textarea = document.querySelector('.comment-wrapper');
-    console.log(textarea);
     textarea.onkeydown = function (e) {
-
         if (e.ctrlKey && e.key === 'Enter') {
             const form = document.querySelector('.active > #comment-edit-form')
-            console.log('form:', form);
             form.submit();
         } else if (e.key === 'Escape') {
             const form = document.querySelector('.active');

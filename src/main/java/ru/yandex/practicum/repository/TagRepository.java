@@ -15,6 +15,8 @@ public interface TagRepository {
 
     void addRelationTagsAndPost(List<Tag> tagsList, Long postId);
 
+    void removeAllRelationForPost(Long postId);
+
     void save(String tag);
 
     List<String> findAbsentTags(List<String> tagNames);

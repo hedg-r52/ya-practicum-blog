@@ -72,10 +72,10 @@ public class JdbcNativeTagRepository implements TagRepository {
     public List<Tag> findTagsByNames(List<String> tagNames) {
         SqlParameterSource parameters = new MapSqlParameterSource("tagNames", tagNames);
         return jdbcTemplate.query("""
-                SELECT id, tag
-                FROM tags
-                WHERE tag in (:tagNames)
-                """,
+                        SELECT id, tag
+                        FROM tags
+                        WHERE tag in (:tagNames)
+                        """,
                 parameters,
                 (rs, rowNum) -> new Tag(
                         0L,
@@ -102,6 +102,12 @@ public class JdbcNativeTagRepository implements TagRepository {
                 return tagsList.size();
             }
         });
+    }
+
+    @Override
+    public void removeAllRelationForPost(Long postId) {
+        SqlParameterSource parameters = new MapSqlParameterSource("postId", postId);
+        jdbcTemplate.update("delete from post_tags where post_id = :postId", parameters);
     }
 
     @Override

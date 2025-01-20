@@ -97,6 +97,19 @@ public class PostController {
         return "redirect:/post";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editPostPage(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("post", postService.getPostById(id));
+        return "edit-post";
+    }
+
+    @PostMapping(value = "/edit")
+    public String edit(@ModelAttribute("post") PostDto post) {
+        PostDto modified = postService.update(post);
+        tagService.saveTags(post.getTags(), modified.getId());
+        return "redirect:/post";
+    }
+
     @PostMapping(value = "/{id}/like")
     @ResponseStatus(value = HttpStatus.OK)
     public void increaseLikeCounter(@PathVariable(name = "id") Long id) {

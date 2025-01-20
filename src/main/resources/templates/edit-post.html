@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лента постов</title>
+    <style>
+        .wrapper {
+            width: 1000px;
+            margin: auto;
+        }
+        .input-field {
+            width: 250px;
+        }
+
+        .tag {
+            display: inline;
+            margin: 0 4px;
+            background-color: #3498db;
+            font-weight: bold;
+            color: white;
+            padding: 3px;
+            border-radius: 5px;
+        }
+
+        .comment {
+            display: block;
+            height: 100px;
+            margin: 0 5px;
+            border: dimgray 1px dashed;
+        }
+
+        .post {
+            display: block;
+            margin: 10px;
+            padding: 5px;
+            width: 960px;
+            border: dimgray 1px dotted;
+            font-size: 28px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <h2>Добавление поста: </h2>
+    <form action="#" th:action="@{/post/edit}" method="post" th:object="${post}">
+        <input type="hidden" name="_method" value="edit" />
+        <input type="hidden" name="id" th:value="${post.id}" />
+        <table>
+            <tr>
+                <td><label for="name">Заголовок поста: </label></td>
+                <td><input class="input-field" type="text" name="name" id="name" th:value="${post.name}"></td>
+            </tr>
+            <tr>
+                <td><label for="image">URL: </label></td>
+                <td><input class="input-field" type="text" name="image" id="image" th:value="${post.image}"></td>
+            </tr>
+            <tr>
+                <td><label for="text">Содержимое поста: </label></td>
+                <td><textarea class="input-textarea" name="text" id="text" th:text="${post.text}"></textarea></td>
+            </tr>
+            <tr>
+                <td><label for="tags">Tags: </label></td>
+                <td><input class="input-field" type="text" name="tags" id="tags" th:value="${post.tags}"></td>
+            </tr>
+        </table>
+        <button class="add-button" type="submit">Подтвердить изменение</button>
+    </form>
+</div>
+</body>
+</html>

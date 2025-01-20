@@ -89,6 +89,16 @@
             position: relative;
             display: inline-block;
         }
+        .edit-button {
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 12px;
+            text-decoration: none;
+            margin: 5px;
+            color: black;
+            position: relative;
+            display: inline-block;
+        }
         .page-size-selector {
             border-radius: 5px;
             padding: 5px;
@@ -140,7 +150,11 @@
             </h2>
             <form th:action="@{/post/{id}(id=${post.id})}" method="post" style="display:inline;">
                 <input type="hidden" name="_method" value="delete"/>
-                <button class="delete-button" type="submit">&#x274C</button>
+                <button class="delete-button" type="submit">&#x274C;</button>
+            </form>
+            <form th:action="@{/post/edit/{id}(id=${post.id})}" method="get" style="display: inline-block">
+                <input type="hidden" name="_method" value="edit"/>
+                <button class="edit-button" type="submit">&#x270E;</button>
             </form>
             <div class="content-wrapper">
                 <div class="content" th:text="${post.text}"></div>
