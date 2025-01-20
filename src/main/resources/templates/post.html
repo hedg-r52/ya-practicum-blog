@@ -21,8 +21,9 @@
         }
 
         .comment {
-            display: block;
+            display: inline-block;
             height: 100px;
+            width: 800px;
             margin: 0 5px;
             border: dimgray 1px dashed;
         }
@@ -35,6 +36,12 @@
             border: dimgray 1px dotted;
             font-size: 28px;
         }
+        .like-count {
+            display: inline-block;
+        }
+        .like-heart {
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -43,7 +50,8 @@
     <div class="image"><img width="200px" th:src="${post.image}"></div>
     <div>
         <div class="likes"><strong>Likes:</strong>
-            <th:block th:text="${post.likes}"/>
+            <div class="like-count" id="like-counter" th:text="${post.likes}"></div>
+            <div class="like-heart" onclick="increaseLikeCounter();">&#x2764</div>
         </div>
         <div class="tags"><strong>Tags:</strong>
             <th:block th:text="${post.tags}"/>
@@ -55,6 +63,10 @@
     <div><strong>Comments:</strong></div>
     <div th:each="comment : ${post.comments}">
         <div class="comment" th:text="${comment.text}"/>
+        <!--/*@thymesVar id="comment" type="ru.yandex.practicum.dto.CommentDto"*/-->
+        <form th:action="@{/post/{postId}/comment/{id}(postId=${post.id},id=${comment.id})}" method="post" style="display:inline;">
+            <button class="delete-button" type="submit">&#x274C</button>
+        </form>
     </div>
     <div class="form-container" style="display: none;" id="commentForm">
         <h3>Добавить комментарий</h3>
@@ -73,6 +85,16 @@
     function toggleForm() {
         const form = document.getElementById('commentForm');
         form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+    function increaseLikeCounter() {
+        const elementLikeCounter = document.getElementById('like-counter');
+        const newCounter = +elementLikeCounter.textContent + 1;
+        elementLikeCounter.textContent = newCounter;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", window.location.href + '/like', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send();
     }
 </script>
 </body>

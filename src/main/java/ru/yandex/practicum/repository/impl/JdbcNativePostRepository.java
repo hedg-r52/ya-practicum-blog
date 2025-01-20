@@ -118,5 +118,19 @@ public class JdbcNativePostRepository implements PostRepository {
         );
     }
 
+    @Override
+    public void increaseLikesCount(Long id) {
+        SqlParameterSource parametersQuery = new MapSqlParameterSource("id", id);
+        int likeCount = jdbcTemplate.query("SELECT likes FROM posts WHERE id = :id LIMIT 1",
+                parametersQuery,
+                (rs, rowNum) -> rs.getInt("likes")
+        ).getFirst();
+
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("id", id);
+        parameters.addValue("likeCount", likeCount + 1);
+        jdbcTemplate.update("UPDATE posts set likes = :likeCount WHERE id = :id", parameters);
+    }
+
 
 }

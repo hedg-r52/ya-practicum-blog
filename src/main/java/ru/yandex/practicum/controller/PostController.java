@@ -2,11 +2,10 @@ package ru.yandex.practicum.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.domain.Comment;
-import ru.yandex.practicum.domain.Post;
 import ru.yandex.practicum.dto.CommentDto;
 import ru.yandex.practicum.dto.PostDto;
 import ru.yandex.practicum.dto.PostShortDto;
@@ -108,5 +107,19 @@ public class PostController {
     public String addComment(@ModelAttribute("newComment") CommentDto comment) {
         commentService.save(comment);
         return "redirect:/post/" + comment.getParentId();
+    }
+
+    @PostMapping(value = "/{postId}/comment/{id}")
+    public String deleteComment(
+            @PathVariable(name = "postId") Long postId,
+            @PathVariable(name = "id") Long id) {
+        commentService.delete(id);
+        return "redirect:/post/" + postId;
+    }
+
+    @PostMapping(value = "/{id}/like")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void increaseLikeCounter(@PathVariable(name = "id") Long id) {
+        postService.increaseLikeCount(id);
     }
 }

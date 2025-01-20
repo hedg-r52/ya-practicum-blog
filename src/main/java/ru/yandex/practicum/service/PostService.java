@@ -20,4 +20,6 @@ public interface PostService {
     void delete(Post post);
 
     void delete(Long id);
+
+    void increaseLikeCount(Long id);
 }

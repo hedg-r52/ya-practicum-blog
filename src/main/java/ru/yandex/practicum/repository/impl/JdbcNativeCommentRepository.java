@@ -94,8 +94,8 @@ public class JdbcNativeCommentRepository implements CommentRepository {
     }
 
     @Override
-    public void delete(Comment comment) {
-        SqlParameterSource parameters = new MapSqlParameterSource("id", comment.getId());
+    public void delete(Long id) {
+        SqlParameterSource parameters = new MapSqlParameterSource("id", id);
         jdbcTemplate.update(
                 "delete from comments where id = :id",
                 parameters
