@@ -101,13 +101,14 @@
 
             <button class="search-button" type="submit">Поиск</button>
         </form>
+
         <form th:action="@{/post}" method="get" style="display: inline-block">
             <button th:text="Clear" type="submit"/>
         </form>
     </div>
-    <div>
-        <button class="add-post-button" onclick="alert('add post alert')">Добавить пост</button>
-    </div>
+    <form th:action="@{/post/add}" method="get">
+        <button class="add-post-button" type="submit">Добавить пост</button>
+    </form>
     <strong style="margin: 10px">Pages: </strong>
     <span th:if="${posts.totalPages > 0}" class="pagination" th:each="pageNumber : ${pageNumbers}">
         <a th:href="@{/post(size=${posts.size}, page=${pageNumber})}"
@@ -116,9 +117,10 @@
     </span>
     <div class="posts">
         <div class="post-short" th:each="post : ${posts}">
-            <h2 style="display: inline-block;"><a th:text="${post.name}" th:href="@{/post/{id}(id=${post.id})}"></a></h2>
+            <h2 style="display: inline-block;"><a th:text="${post.name}" th:href="@{/post/{id}(id=${post.id})}"></a>
+            </h2>
             <form th:action="@{/post/{id}(id=${post.id})}" method="post" style="display:inline;">
-                <input type="hidden" name="_method" value="delete" />
+                <input type="hidden" name="_method" value="delete"/>
                 <button class="delete-button" type="submit">&#x274C</button>
             </form>
             <div class="content-wrapper">

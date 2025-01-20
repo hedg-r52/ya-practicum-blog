@@ -7,11 +7,11 @@ import java.util.List;
 public interface PostRepository {
     List<Post> findAll();
 
-    List<Post> findAllFilteredByTag(String tag, Long limit, Long offset);
+    List<Post> findAllFilteredByTag(String tag);
 
     Post getPost(Long id);
 
-    void save(Post post);
+    Long save(Post post);
 
     Post update(Post post);
 

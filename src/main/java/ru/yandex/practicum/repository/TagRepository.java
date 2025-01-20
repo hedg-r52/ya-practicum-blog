@@ -11,8 +11,14 @@ public interface TagRepository {
 
     Map<Long, List<Tag>> findTagsByPostIdList(List<Long> idList);
 
-    void save(Tag tag);
+    List<Tag> findTagsByNames(List<String> tagNames);
+
+    void addRelationTagsAndPost(List<Tag> tagsList, Long postId);
+
+    void save(String tag);
 
     void delete(Long id);
+
+    List<String> findAbsentTags(List<String> tagNames);
 
 }

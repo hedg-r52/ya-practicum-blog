@@ -5,23 +5,26 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.domain.Post;
 import ru.yandex.practicum.dto.PostDto;
 import ru.yandex.practicum.dto.PostShortDto;
 import ru.yandex.practicum.service.PostService;
+import ru.yandex.practicum.service.TagService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/post")
 public class PostController {
-    private final Long LIMIT = 5L;
+    private final int LIMIT = 5;
     private final PostService postService;
+    private final TagService tagService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, TagService tagService) {
         this.postService = postService;
+        this.tagService = tagService;
     }
 
     @GetMapping
@@ -30,7 +33,7 @@ public class PostController {
             @RequestParam("page") Optional<Integer> page,
             @RequestParam("size") Optional<Integer> size) {
         int currentPage = page.orElse(1);
-        int pageSize = size.orElse(5);
+        int pageSize = size.orElse(LIMIT);
 
         Page<PostShortDto> posts = postService.findAll(PageRequest.of(currentPage - 1, pageSize));
         model.addAttribute("posts", posts);
@@ -43,6 +46,8 @@ public class PostController {
         }
         return "posts";
     }
+
+
 
     @GetMapping("/{id}")
     public String postDetail(@PathVariable("id") Long id, Model model) {
@@ -60,17 +65,38 @@ public class PostController {
     @PostMapping("/search")
     public String search(Model model,
                          @RequestParam("name") String tag,
-                         @RequestParam("limit") Optional<Long> optionalLimit,
-                         @RequestParam("offset") Optional<Long> optionalOffset) {
+                         @RequestParam("page") Optional<Integer> page,
+                         @RequestParam("size") Optional<Integer> size) {
         if (tag.isBlank()) {
             return "redirect:/post";
         }
-        long offset = optionalOffset.orElse(0L);
-        long limit = optionalLimit.orElse(LIMIT);
-        List<PostShortDto> posts = postService.findAllFilteredByTag(tag, limit, offset);
-        model.addAttribute("posts", posts);
-        model.addAttribute("name", tag);
 
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(LIMIT);
+
+        Page<PostShortDto> posts = postService.findAllFilteredByTag(tag, PageRequest.of(currentPage - 1, pageSize));
+        model.addAttribute("posts", posts);
+        int totalPages = posts.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .toList();
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        model.addAttribute("name", tag);
         return "posts";
+    }
+
+    @GetMapping("/add")
+    public String addPostPage(Model model) {
+        return "add-post";
+    }
+
+    @PostMapping(value = "/add")
+    public String add(@ModelAttribute("post") PostDto post) {
+        PostDto saved = postService.save(post);
+        // как узнать номер вставленной записи
+        tagService.saveTags(post.getTags(), saved.getId());
+        return "redirect:/post";
     }
 }

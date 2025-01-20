@@ -19,9 +19,9 @@ public final class Post {
             String image,
             String content,
             int likes,
-            List<Tag> tags,
-            List<Comment> comments
-    ) {
+            List<Comment> comments,
+            List<Tag> tags
+            ) {
         this.id = id;
         this.name = name;
         this.image = image;

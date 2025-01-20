@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.domain.Tag;
 import ru.yandex.practicum.dto.PostDto;
 import ru.yandex.practicum.dto.PostShortDto;
@@ -28,7 +27,11 @@ public class PostServiceImpl implements PostService {
     private final TagRepository tagRepository;
     private final PostMapper postMapper;
 
-    public PostServiceImpl(PostRepository postRepository, CommentRepository commentRepository, TagRepository tagRepository, PostMapper postMapper) {
+    public PostServiceImpl(
+            PostRepository postRepository,
+            CommentRepository commentRepository,
+            TagRepository tagRepository,
+            PostMapper postMapper) {
         this.postRepository = postRepository;
         this.commentRepository = commentRepository;
         this.tagRepository = tagRepository;
@@ -59,13 +62,26 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostShortDto> findAllFilteredByTag(String tag, Long limit, Long offset) {
-        List<Post> posts = postRepository.findAllFilteredByTag(tag, limit, offset);
+    public Page<PostShortDto> findAllFilteredByTag(String tag, Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<PostShortDto> list;
+        List<Post> posts = postRepository.findAllFilteredByTag(tag);
         List<Long> idList = posts.stream().map(Post::getId).toList();
         enrichPosts(idList, posts);
-        return posts.stream()
-                .map(postMapper::toPostShortDto)
-                .toList();
+
+        if (posts.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, posts.size());
+            list = posts.subList(startItem, toIndex).stream()
+                    .map(postMapper::toPostShortDto)
+                    .toList();
+        }
+
+        Page<PostShortDto> postPage = new PageImpl<>(list, PageRequest.of(currentPage, pageSize), posts.size());
+        return postPage;
     }
 
     private void enrichPosts(List<Long> idList, List<Post> posts) {
@@ -81,26 +97,26 @@ public class PostServiceImpl implements PostService {
     public PostDto getPostById(Long id) {
         Post post = postRepository.getPost(id);
         List<Comment> comments = commentRepository.getCommentsByPostId(id);
+        List<Tag> tags = tagRepository.findTagsByPostId(id);
         post.setComments(comments);
+        post.setTags(tags);
         return postMapper.toPostDto(post);
     }
 
     @Override
-    @Transactional
-    public PostDto save(Post post) {
-        postRepository.save(post);
-        post.getComments().forEach(commentRepository::save);
-        return postMapper.toPostDto(post);
+    public PostDto save(PostDto postDto) {
+        Long id = postRepository.save(postMapper.toPost(postDto));
+        postDto.setId(id);
+        return postDto;
     }
 
     @Override
-    public PostDto update(Post post) {
-        postRepository.update(post);
-        return postMapper.toPostDto(post);
+    public PostDto update(PostDto postDto) {
+        postRepository.update(postMapper.toPost(postDto));
+        return postDto;
     }
 
     @Override
-    @Transactional
     public void delete(Post post) {
         post.getComments().forEach(commentRepository::delete);
         postRepository.delete(post.getId());
@@ -108,7 +124,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void delete(Long id) {
-        postRepository.delete(id);
+        Post post = postRepository.getPost(id);
+        post.getComments().forEach(commentRepository::delete);
+        postRepository.delete(post.getId());
     }
 
 }

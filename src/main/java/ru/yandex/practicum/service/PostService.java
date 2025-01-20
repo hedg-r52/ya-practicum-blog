@@ -6,18 +6,16 @@ import ru.yandex.practicum.dto.PostDto;
 import ru.yandex.practicum.dto.PostShortDto;
 import ru.yandex.practicum.domain.Post;
 
-import java.util.List;
-
 public interface PostService {
     Page<PostShortDto> findAll(Pageable pageable);
 
-    List<PostShortDto> findAllFilteredByTag(String tag, Long limit, Long offset);
+    Page<PostShortDto> findAllFilteredByTag(String tag, Pageable pageable);
 
     PostDto getPostById(Long id);
 
-    PostDto save(Post post);
+    PostDto save(PostDto post);
 
-    PostDto update(Post post);
+    PostDto update(PostDto post);
 
     void delete(Post post);
 

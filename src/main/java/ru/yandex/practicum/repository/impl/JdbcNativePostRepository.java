@@ -3,6 +3,8 @@ package ru.yandex.practicum.repository.impl;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.domain.Post;
 import ru.yandex.practicum.repository.PostRepository;
@@ -35,18 +37,15 @@ public class JdbcNativePostRepository implements PostRepository {
     }
 
     @Override
-    public List<Post> findAllFilteredByTag(String tag, Long limit, Long offset) {
+    public List<Post> findAllFilteredByTag(String tag) {
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("tag", tag);
-        parameters.addValue("limit", limit);
-        parameters.addValue("offset", offset);
         return jdbcTemplate.query("""
                         SELECT p.id id, p.name name, p.image image, p.content content, p.likes likes 
                         FROM posts p
                             JOIN post_tags pt ON p.id = pt.post_id
                             JOIN tags t ON t.id = pt.tag_id
                         WHERE t.tag = :tag
-                        LIMIT :limit OFFSET :offset
                         """,
                 parameters,
                 (rs, rowNum) -> new Post(
@@ -80,7 +79,8 @@ public class JdbcNativePostRepository implements PostRepository {
     }
 
     @Override
-    public void save(Post post) {
+    public Long save(Post post) {
+        KeyHolder holder = new GeneratedKeyHolder();
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("name", post.getName());
         parameters.addValue("image", post.getImage());
@@ -88,8 +88,10 @@ public class JdbcNativePostRepository implements PostRepository {
         parameters.addValue("likes", post.getLikes());
         jdbcTemplate.update(
                 "insert into posts(name, image, content, likes) values ( :name, :image, :content, :likes )",
-                parameters
+                parameters,
+                holder
         );
+        return holder.getKey().longValue();
     }
 
     @Override
