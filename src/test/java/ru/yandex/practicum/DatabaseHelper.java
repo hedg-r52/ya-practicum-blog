@@ -1,31 +1,17 @@
-package ru.yandex.practicum.repository;
+package ru.yandex.practicum;
 
-import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import ru.yandex.practicum.domain.Post;
-import ru.yandex.practicum.repository.config.RepositoryConfiguration;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@SpringJUnitConfig({RepositoryConfiguration.class})
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@TestPropertySource(locations = "classpath:test-application.properties")
-public class JdbcNativePostRepositoryTest {
-
-    @Autowired
-    private PostRepository postRepository;
-
+@Component
+public class DatabaseHelper {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    @BeforeEach
-    void resetDatabase() {
+    public void resetDatabase() {
         jdbcTemplate.update("DROP ALL OBJECTS", Map.of());
         jdbcTemplate.update("RUNSCRIPT FROM 'classpath:test-schema.sql'", Map.of());
 
@@ -63,67 +49,4 @@ public class JdbcNativePostRepositoryTest {
         jdbcTemplate.update("INSERT INTO post_tags(post_id, tag_id) VALUES (2, 3);", Map.of());
         jdbcTemplate.update("INSERT INTO post_tags(post_id, tag_id) VALUES (2, 4);", Map.of());
     }
-
-    @Test
-    void findAll_shouldReturnAllPosts() {
-        List<Post> posts = postRepository.findAll();
-
-        assertEquals(2, posts.size());
-        assertEquals("Первый пост", posts.getFirst().getName());
-    }
-
-    @Test
-    void findAllFiltered_shouldReturnFilteredPosts() {
-        List<Post> posts = postRepository.findAllFilteredByTag("social");
-
-        assertEquals(1, posts.size());
-        assertEquals("Первый пост", posts.getFirst().getName());
-    }
-
-    @Test
-    void getPost_shouldReturnPost() {
-        Post post = postRepository.getPost(1L);
-
-        assertNotNull(post);
-        assertEquals("Первый пост", post.getName());
-    }
-
-
-    @Test
-    void deletePost_shouldDeletePost() {
-        postRepository.delete(2L);
-        List<Post> posts = postRepository.findAll();
-
-        assertEquals(1, posts.size());
-    }
-
-    @Test
-    void savePost_shouldSavePost() {
-        Long id = postRepository.save(new Post(-1L, "Saved", "Image", "Content", 1, List.of(), List.of()));
-        Post post = postRepository.getPost(id);
-
-        assertNotNull(post);
-        assertEquals("Saved", post.getName());
-    }
-
-    @Test
-    void updatePost_shouldUpdatePost() {
-        postRepository.update(new Post(1L, "Updated", "Image", "Content", 1, List.of(), List.of()));
-        Post post = postRepository.getPost(1L);
-
-        assertNotNull(post);
-        assertEquals("Updated", post.getName());
-    }
-
-    @Test
-    void increaseLikesCount() {
-        Post post = postRepository.getPost(1L);
-        int expected = post.getLikes() + 1;
-
-        postRepository.increaseLikesCount(1L);
-
-        Post updated = postRepository.getPost(1L);
-        assertEquals(expected, updated.getLikes());
-    }
-
 }
