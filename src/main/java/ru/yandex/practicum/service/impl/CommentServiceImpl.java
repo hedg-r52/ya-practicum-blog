@@ -1,9 +1,10 @@
-package ru.yandex.practicum.service;
+package ru.yandex.practicum.service.impl;
 
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.dto.CommentDto;
 import ru.yandex.practicum.mapper.CommentMapper;
 import ru.yandex.practicum.repository.CommentRepository;
+import ru.yandex.practicum.service.CommentService;
 
 import java.util.List;
 

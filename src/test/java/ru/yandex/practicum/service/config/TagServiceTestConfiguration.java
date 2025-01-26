@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.yandex.practicum.repository.TagRepository;
 import ru.yandex.practicum.service.TagService;
-import ru.yandex.practicum.service.TagServiceImpl;
+import ru.yandex.practicum.service.impl.TagServiceImpl;
 
 import static org.mockito.Mockito.mock;
 

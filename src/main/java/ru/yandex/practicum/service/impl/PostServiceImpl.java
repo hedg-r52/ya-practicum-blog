@@ -1,4 +1,4 @@
-package ru.yandex.practicum.service;
+package ru.yandex.practicum.service.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,6 +15,7 @@ import ru.yandex.practicum.domain.Post;
 import ru.yandex.practicum.repository.CommentRepository;
 import ru.yandex.practicum.repository.PostRepository;
 import ru.yandex.practicum.repository.TagRepository;
+import ru.yandex.practicum.service.PostService;
 
 import java.util.Collections;
 import java.util.List;

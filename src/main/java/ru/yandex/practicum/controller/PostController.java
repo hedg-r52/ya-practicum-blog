@@ -39,9 +39,7 @@ public class PostController {
         model.addAttribute("posts", posts);
         int totalPages = posts.getTotalPages();
         if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .toList();
+            long pageNumbers = IntStream.rangeClosed(1, totalPages).count();
             model.addAttribute("pageNumbers", pageNumbers);
         }
         return "posts";
@@ -76,9 +74,7 @@ public class PostController {
         model.addAttribute("posts", posts);
         int totalPages = posts.getTotalPages();
         if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .toList();
+            long pageNumbers = IntStream.rangeClosed(1, totalPages).count();
             model.addAttribute("pageNumbers", pageNumbers);
         }
         model.addAttribute("name", tag);

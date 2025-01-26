@@ -139,9 +139,9 @@
     <a th:href="@{/post(size=50, page=1)}" th:class="${posts.size == 50 ? 'active page-size-selector' : 'page-size-selector'}">50</a>
 
     <strong style="margin: 10px">Pages: </strong>
-    <span th:if="${posts.totalPages > 0}" class="pagination" th:each="pageNumber : ${pageNumbers}">
+    <span th:if="${posts.totalPages > 0}" class="pagination" th:each="pageNumber : ${#numbers.sequence(1, pageNumbers)}">
         <a th:href="@{/post(size=${posts.size}, page=${pageNumber})}"
-           th:text=${pageNumber}
+           th:text="${pageNumber}"
            th:class="${pageNumber==posts.number + 1} ? active"></a>
     </span>
     <div class="posts">

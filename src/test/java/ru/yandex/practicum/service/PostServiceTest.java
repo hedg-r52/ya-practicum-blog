@@ -12,6 +12,7 @@ import ru.yandex.practicum.dto.PostDto;
 import ru.yandex.practicum.dto.PostShortDto;
 import ru.yandex.practicum.repository.PostRepository;
 import ru.yandex.practicum.service.config.PostServiceTestConfiguration;
+import ru.yandex.practicum.service.impl.PostServiceImpl;
 
 import java.util.List;
 
@@ -38,8 +39,8 @@ public class PostServiceTest {
                         "url image 1",
                         "Содержимое 1",
                         1,
-                        List.of(new Comment(1L, 1L, "Коммент 1")),
-                        List.of(new Tag(1L, 1L, "tag1"))
+                        List.of(new Tag(1L, 1L, "tag1")),
+                        List.of(new Comment(1L, 1L, "Коммент 1"))
                 ),
                 new Post(
                         2L,
@@ -47,8 +48,8 @@ public class PostServiceTest {
                         "url image 2",
                         "Содержимое 2",
                         3,
-                        List.of(new Comment(2L, 2L, "Коммент 2")),
-                        List.of(new Tag(2L, 2L, "tag2"))
+                        List.of(new Tag(2L, 2L, "tag2")),
+                        List.of(new Comment(2L, 2L, "Коммент 2"))
                 )
         ));
 
@@ -74,8 +75,8 @@ public class PostServiceTest {
                         "url image 4",
                         "Содержимое 4",
                         4,
-                        List.of(new Comment(4L, 4L, "Коммент 4")),
-                        List.of(new Tag(4L, 4L, "tag4"))
+                        List.of(new Tag(4L, 4L, "tag4")),
+                        List.of(new Comment(4L, 4L, "Коммент 4"))
                 )
         ));
 
@@ -102,8 +103,8 @@ public class PostServiceTest {
                         "url image 5",
                         "Содержимое 5",
                         5,
-                        List.of(new Comment(5L, 5L, "Коммент 5")),
-                        List.of(new Tag(5L, 5L, "tag5"))
+                        List.of(new Tag(5L, 5L, "tag5")),
+                        List.of(new Comment(5L, 5L, "Коммент 5"))
                 ));
 
         PostDto postDto = postService.getPostById(5L);

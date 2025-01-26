@@ -1,9 +1,10 @@
-package ru.yandex.practicum.service;
+package ru.yandex.practicum.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.domain.Tag;
 import ru.yandex.practicum.repository.TagRepository;
+import ru.yandex.practicum.service.TagService;
 
 import java.util.Arrays;
 import java.util.List;

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.yandex.practicum.repository.TagRepository;
 import ru.yandex.practicum.service.config.TagServiceTestConfiguration;
+import ru.yandex.practicum.service.impl.TagServiceImpl;
 
 import java.util.Arrays;
 import java.util.List;
