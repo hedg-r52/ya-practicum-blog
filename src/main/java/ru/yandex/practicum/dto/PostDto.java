@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public final class PostDto {
+public class PostDto {
     private Long id;
     private String name;
     private String image;

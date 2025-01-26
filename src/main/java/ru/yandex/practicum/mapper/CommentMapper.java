@@ -1,25 +1,13 @@
 package ru.yandex.practicum.mapper;
 
-import org.springframework.stereotype.Component;
-import ru.yandex.practicum.dto.CommentDto;
+import org.mapstruct.Mapper;
 import ru.yandex.practicum.domain.Comment;
+import ru.yandex.practicum.dto.CommentDto;
 
-@Component
-public class CommentMapper {
+@Mapper(componentModel = "spring")
+public interface CommentMapper {
 
-    public CommentDto toCommentDto(Comment comment) {
-        return new CommentDto(
-                comment.getPostId(),
-                comment.getId(),
-                comment.getText()
-        );
-    }
+    Comment toComment(CommentDto commentDto);
 
-    public Comment toComment(CommentDto commentDto) {
-        Comment comment = new Comment();
-        comment.setPostId(commentDto.getPostId());
-        comment.setId(commentDto.getId());
-        comment.setText(commentDto.getText());
-        return comment;
-    }
+    CommentDto toCommentDto(Comment comment);
 }

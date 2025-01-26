@@ -24,9 +24,6 @@ public class CommentServiceTest {
     private CommentService commentService;
 
     @Autowired
-    private CommentMapper commentMapper;
-
-    @Autowired
     private CommentRepository commentRepository;
 
     @BeforeEach

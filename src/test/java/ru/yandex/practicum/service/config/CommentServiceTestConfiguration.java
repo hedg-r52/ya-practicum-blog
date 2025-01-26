@@ -3,6 +3,7 @@ package ru.yandex.practicum.service.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.yandex.practicum.mapper.CommentMapper;
+import ru.yandex.practicum.mapper.CommentMapperImpl;
 import ru.yandex.practicum.repository.CommentRepository;
 import ru.yandex.practicum.service.CommentService;
 import ru.yandex.practicum.service.impl.CommentServiceImpl;
@@ -23,6 +24,6 @@ public class CommentServiceTestConfiguration {
 
     @Bean
     public CommentMapper commentMapper() {
-        return new CommentMapper();
+        return new CommentMapperImpl();
     }
 }

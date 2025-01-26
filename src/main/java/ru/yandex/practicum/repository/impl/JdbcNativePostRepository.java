@@ -29,9 +29,7 @@ public class JdbcNativePostRepository implements PostRepository {
                         rs.getString("name"),
                         rs.getString("image"),
                         rs.getString("content"),
-                        rs.getInt("likes"),
-                        List.of(),
-                        List.of()
+                        rs.getInt("likes")
                 )
         );
     }
@@ -53,9 +51,7 @@ public class JdbcNativePostRepository implements PostRepository {
                         rs.getString("name"),
                         rs.getString("image"),
                         rs.getString("content"),
-                        rs.getInt("likes"),
-                        List.of(),
-                        List.of()
+                        rs.getInt("likes")
                 )
         );
     }
@@ -71,9 +67,7 @@ public class JdbcNativePostRepository implements PostRepository {
                         rs.getString("name"),
                         rs.getString("image"),
                         rs.getString("content"),
-                        rs.getInt("likes"),
-                        List.of(),
-                        List.of()
+                        rs.getInt("likes")
                 )
         );
     }

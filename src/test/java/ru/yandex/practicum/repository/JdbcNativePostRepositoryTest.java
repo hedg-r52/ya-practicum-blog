@@ -99,7 +99,7 @@ public class JdbcNativePostRepositoryTest {
 
     @Test
     void savePost_shouldSavePost() {
-        Long id = postRepository.save(new Post(-1L, "Saved", "Image", "Content", 1, List.of(), List.of()));
+        Long id = postRepository.save(new Post(-1L, "Saved", "Image", "Content", 1));
         Post post = postRepository.getPost(id);
 
         assertNotNull(post);
@@ -108,7 +108,7 @@ public class JdbcNativePostRepositoryTest {
 
     @Test
     void updatePost_shouldUpdatePost() {
-        postRepository.update(new Post(1L, "Updated", "Image", "Content", 1, List.of(), List.of()));
+        postRepository.update(new Post(1L, "Updated", "Image", "Content", 1));
         Post post = postRepository.getPost(1L);
 
         assertNotNull(post);
