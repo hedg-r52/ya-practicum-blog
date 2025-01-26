@@ -88,7 +88,7 @@ public class PostControllerIntegrationTest {
     @Test
     @Order(5)
     void whenEditPost_thenSuccess() throws Exception {
-        mockMvc.perform(post("/post/edit")
+        mockMvc.perform(post("/post/2/edit")
                         .param("id", "2")
                         .param("name", "Updated")
                         .param("image", "Image5")

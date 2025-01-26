@@ -152,7 +152,7 @@
                 <input type="hidden" name="_method" value="delete"/>
                 <button class="delete-button" type="submit">&#x274C;</button>
             </form>
-            <form th:action="@{/post/edit/{id}(id=${post.id})}" method="get" style="display: inline-block">
+            <form th:action="@{/post/{id}/edit(id=${post.id})}" method="get" style="display: inline-block">
                 <input type="hidden" name="_method" value="edit"/>
                 <button class="edit-button" type="submit">&#x270E;</button>
             </form>
