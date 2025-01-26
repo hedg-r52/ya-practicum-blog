@@ -24,12 +24,11 @@ public class CommentController {
         return "redirect:/post/" + comment.getPostId();
     }
 
-    @PostMapping(value = "/{id}/post/{postId}")
-    public String deleteComment(
-            @PathVariable(name = "postId") Long postId,
-            @PathVariable(name = "id") Long id) {
+    @PostMapping(value = "/{id}")
+    public String deleteComment(@PathVariable(name = "id") Long id) {
+        CommentDto commentDto = commentService.findById(id);
         commentService.delete(id);
-        return "redirect:/post/" + postId;
+        return "redirect:/post/" + commentDto.getPostId();
     }
 
     @PostMapping(value = "/edit")

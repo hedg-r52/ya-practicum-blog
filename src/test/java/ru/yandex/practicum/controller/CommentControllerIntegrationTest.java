@@ -48,7 +48,7 @@ public class CommentControllerIntegrationTest {
 
     @Test
     public void deleteComment_shouldDeleteComment() throws Exception {
-        mockMvc.perform(post("/comment/1/post/1")
+        mockMvc.perform(post("/comment/1")
                         .param("content", "content")
                 )
                 .andExpect(status().is3xxRedirection())
