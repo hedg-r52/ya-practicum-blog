@@ -72,7 +72,7 @@
                 </form>
             </div>
             <!--/*@thymesVar id="comment" type="ru.yandex.practicum.dto.CommentDto"*/-->
-            <form id="delete-form" th:action="@{/comment/{id}/post/{postId}(postId=${post.id},id=${comment.id})}"
+            <form id="delete-form" th:action="@{/comment/{id}(id=${comment.id})}"
                   method="post" style="display:inline;">
                 <button class="delete-button" type="submit">&#x274C</button>
             </form>

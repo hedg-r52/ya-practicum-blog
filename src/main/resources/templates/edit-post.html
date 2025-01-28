@@ -43,7 +43,7 @@
 <body>
 <div class="wrapper">
     <h2>Добавление поста: </h2>
-    <form action="#" th:action="@{/post/edit}" method="post" th:object="${post}">
+    <form action="#" th:action="@{/post/{id}/edit(id=${post.id})}" method="post" th:object="${post}">
         <input type="hidden" name="_method" value="edit" />
         <input type="hidden" name="id" th:value="${post.id}" />
         <table>

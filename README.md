@@ -1,6 +1,27 @@
 # Task "Blog" by Yandex.Practicum
 
-Creation an application blog using Spring Framework with the addition of tests.
+Creation an application blog using Spring Framework with the addition of tests. Solution contains two pages: feed of posts, and post page
+
+### Installation
+
+For test solution you should use command like that (for Mac/Unix use gradlew instead of bat-file):
+```shell 
+.\gradlew.bat clean test
+```
+
+For build solution you should use command like that (for Mac/Unix use gradlew instead of bat-file):
+```shell 
+.\gradlew.bat clean build
+```
+
+For deployment you should copy ya-practicum-blog-<version>.war to Tomcat webapps folder
+
+Solution will be accessible by URL:
+```
+http://<container_address>/post
+```
+
+
 
 ### Requirements and functionality:
 - Web application written using Spring Framework (version 6.1 and above), performed in any of modern servlet-containers (Jetty or Tomcat)

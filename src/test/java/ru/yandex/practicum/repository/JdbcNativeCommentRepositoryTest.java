@@ -1,12 +1,11 @@
 package ru.yandex.practicum.repository;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import ru.yandex.practicum.DatabaseHelper;
 import ru.yandex.practicum.domain.Comment;
 import ru.yandex.practicum.repository.config.RepositoryConfiguration;
 
@@ -23,8 +22,18 @@ public class JdbcNativeCommentRepositoryTest {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private NamedParameterJdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private DatabaseHelper databaseHelper;
+
+    @BeforeEach
+    void resetDatabase() {
+        databaseHelper.resetDatabase();
+    }
+
     @Test
-    @Order(1)
     public void getCommentsByPostId_shouldReturnComments() {
         List<Comment> comments = commentRepository.getCommentsByPostId(1L);
 
@@ -33,7 +42,6 @@ public class JdbcNativeCommentRepositoryTest {
     }
 
     @Test
-    @Order(2)
     public void getCommentsByPostIdList_shouldReturnComments() {
         Map<Long, List<Comment>> comments = commentRepository.getCommentsByPostIdList(List.of(1L, 2L));
         List<String> secondPostComments = comments.get(2L).stream().map(Comment::getText).toList();
@@ -47,7 +55,6 @@ public class JdbcNativeCommentRepositoryTest {
     }
 
     @Test
-    @Order(3)
     public void getById_shouldReturnComment() {
         Comment comment = commentRepository.getById(1L);
 
@@ -56,7 +63,6 @@ public class JdbcNativeCommentRepositoryTest {
     }
 
     @Test
-    @Order(4)
     public void save_shouldSaveComments() {
         commentRepository.save(new Comment(1L, null, "Test"));
         List<Comment> comments = commentRepository.getCommentsByPostId(1L);
@@ -66,7 +72,6 @@ public class JdbcNativeCommentRepositoryTest {
     }
 
     @Test
-    @Order(5)
     public void update_shouldUpdateComments() {
         commentRepository.update(new Comment(1L, 2L, "Updated"));
 
@@ -76,7 +81,6 @@ public class JdbcNativeCommentRepositoryTest {
     }
 
     @Test
-    @Order(6)
     public void delete_shouldDeleteComments() {
         commentRepository.delete(3L);
         List<Comment> comments = commentRepository.getCommentsByPostId(2L);

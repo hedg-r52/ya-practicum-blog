@@ -8,6 +8,7 @@ import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import ru.yandex.practicum.DatabaseHelper;
 import ru.yandex.practicum.config.DataSourceConfiguration;
 import ru.yandex.practicum.config.WebConfiguration;
 
@@ -25,13 +26,18 @@ public class PostControllerIntegrationTest {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private DatabaseHelper databaseHelper;
+
     private MockMvc mockMvc;
+
     @Autowired
     private WebApplicationContext webApplicationContext;
 
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        databaseHelper.resetDatabase();
     }
 
     @Test
@@ -82,7 +88,7 @@ public class PostControllerIntegrationTest {
     @Test
     @Order(5)
     void whenEditPost_thenSuccess() throws Exception {
-        mockMvc.perform(post("/post/edit")
+        mockMvc.perform(post("/post/2/edit")
                         .param("id", "2")
                         .param("name", "Updated")
                         .param("image", "Image5")

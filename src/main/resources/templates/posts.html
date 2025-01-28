@@ -139,9 +139,9 @@
     <a th:href="@{/post(size=50, page=1)}" th:class="${posts.size == 50 ? 'active page-size-selector' : 'page-size-selector'}">50</a>
 
     <strong style="margin: 10px">Pages: </strong>
-    <span th:if="${posts.totalPages > 0}" class="pagination" th:each="pageNumber : ${pageNumbers}">
+    <span th:if="${posts.totalPages > 0}" class="pagination" th:each="pageNumber : ${#numbers.sequence(1, pageNumbers)}">
         <a th:href="@{/post(size=${posts.size}, page=${pageNumber})}"
-           th:text=${pageNumber}
+           th:text="${pageNumber}"
            th:class="${pageNumber==posts.number + 1} ? active"></a>
     </span>
     <div class="posts">
@@ -152,7 +152,7 @@
                 <input type="hidden" name="_method" value="delete"/>
                 <button class="delete-button" type="submit">&#x274C;</button>
             </form>
-            <form th:action="@{/post/edit/{id}(id=${post.id})}" method="get" style="display: inline-block">
+            <form th:action="@{/post/{id}/edit(id=${post.id})}" method="get" style="display: inline-block">
                 <input type="hidden" name="_method" value="edit"/>
                 <button class="edit-button" type="submit">&#x270E;</button>
             </form>

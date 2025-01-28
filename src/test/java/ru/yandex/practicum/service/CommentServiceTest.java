@@ -2,7 +2,6 @@ package ru.yandex.practicum.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.yandex.practicum.domain.Comment;
@@ -10,6 +9,7 @@ import ru.yandex.practicum.dto.CommentDto;
 import ru.yandex.practicum.mapper.CommentMapper;
 import ru.yandex.practicum.repository.CommentRepository;
 import ru.yandex.practicum.service.config.CommentServiceTestConfiguration;
+import ru.yandex.practicum.service.impl.CommentServiceImpl;
 
 import java.util.List;
 
@@ -22,9 +22,6 @@ public class CommentServiceTest {
 
     @Autowired
     private CommentService commentService;
-
-    @Autowired
-    private CommentMapper commentMapper;
 
     @Autowired
     private CommentRepository commentRepository;

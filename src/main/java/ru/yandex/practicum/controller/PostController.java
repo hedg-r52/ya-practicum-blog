@@ -11,7 +11,6 @@ import ru.yandex.practicum.dto.PostShortDto;
 import ru.yandex.practicum.service.PostService;
 import ru.yandex.practicum.service.TagService;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -39,9 +38,7 @@ public class PostController {
         model.addAttribute("posts", posts);
         int totalPages = posts.getTotalPages();
         if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .toList();
+            long pageNumbers = IntStream.rangeClosed(1, totalPages).count();
             model.addAttribute("pageNumbers", pageNumbers);
         }
         return "posts";
@@ -76,9 +73,7 @@ public class PostController {
         model.addAttribute("posts", posts);
         int totalPages = posts.getTotalPages();
         if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .toList();
+            long pageNumbers = IntStream.rangeClosed(1, totalPages).count();
             model.addAttribute("pageNumbers", pageNumbers);
         }
         model.addAttribute("name", tag);
@@ -97,16 +92,16 @@ public class PostController {
         return "redirect:/post";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/{id}/edit")
     public String editPostPage(@PathVariable("id") Long id, Model model) {
         model.addAttribute("post", postService.getPostById(id));
         return "edit-post";
     }
 
-    @PostMapping(value = "/edit")
-    public String edit(@ModelAttribute("post") PostDto post) {
-        PostDto modified = postService.update(post);
-        tagService.saveTags(post.getTags(), modified.getId());
+    @PostMapping(value = "/{id}/edit")
+    public String edit(@PathVariable("id") Long id, @ModelAttribute("post") PostDto post) {
+        postService.update(post);
+        tagService.saveTags(post.getTags(), id);
         return "redirect:/post";
     }
 
