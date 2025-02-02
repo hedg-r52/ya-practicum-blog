@@ -35,20 +35,6 @@ public class DataSourceConfiguration {
     }
 
     @Bean
-    NamedParameterJdbcTemplate jdbcTemplate(DataSource dataSource) {
-        return new NamedParameterJdbcTemplate(dataSource);
-    }
-
-    @EventListener
-    public void populate(ContextRefreshedEvent event) {
-        DataSource dataSource = event.getApplicationContext().getBean(DataSource.class);
-
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("schema.sql"));
-        populator.execute(dataSource);
-    }
-
-    @Bean
     public PlatformTransactionManager txManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
