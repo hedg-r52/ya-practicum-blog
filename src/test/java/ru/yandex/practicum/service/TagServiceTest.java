@@ -4,9 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import ru.yandex.practicum.repository.TagRepository;
-import ru.yandex.practicum.service.config.TagServiceTestConfiguration;
 import ru.yandex.practicum.service.impl.TagServiceImpl;
 
 import java.util.Arrays;
@@ -14,12 +15,13 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-@SpringJUnitConfig(classes = {TagServiceTestConfiguration.class, TagServiceImpl.class})
+@SpringBootTest(classes = TagServiceImpl.class)
+@ActiveProfiles("test")
 public class TagServiceTest {
     @Autowired
     private TagService tagService;
 
-    @Autowired
+    @MockitoBean
     private TagRepository tagRepository;
 
     @BeforeEach

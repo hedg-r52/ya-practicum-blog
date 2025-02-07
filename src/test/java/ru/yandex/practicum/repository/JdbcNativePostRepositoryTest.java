@@ -2,20 +2,19 @@ package ru.yandex.practicum.repository;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.ActiveProfiles;
 import ru.yandex.practicum.domain.Post;
-import ru.yandex.practicum.repository.config.RepositoryConfiguration;
 
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringJUnitConfig({RepositoryConfiguration.class})
+@SpringBootTest
+@ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@TestPropertySource(locations = "classpath:test-application.properties")
 public class JdbcNativePostRepositoryTest {
 
     @Autowired
@@ -27,7 +26,7 @@ public class JdbcNativePostRepositoryTest {
     @BeforeEach
     void resetDatabase() {
         jdbcTemplate.update("DROP ALL OBJECTS", Map.of());
-        jdbcTemplate.update("RUNSCRIPT FROM 'classpath:test-schema.sql'", Map.of());
+        jdbcTemplate.update("RUNSCRIPT FROM 'classpath:schema-test.sql'", Map.of());
 
         jdbcTemplate.update("""
                 INSERT INTO posts(name, image, content, likes)

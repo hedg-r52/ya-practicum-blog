@@ -1,21 +1,23 @@
 package ru.yandex.practicum.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import ru.yandex.practicum.DatabaseHelper;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import ru.yandex.practicum.domain.Comment;
 import ru.yandex.practicum.domain.Post;
 import ru.yandex.practicum.domain.Tag;
 import ru.yandex.practicum.dto.PostDto;
 import ru.yandex.practicum.dto.PostShortDto;
+import ru.yandex.practicum.mapper.CommentMapperImpl;
+import ru.yandex.practicum.mapper.PostMapperImpl;
 import ru.yandex.practicum.repository.CommentRepository;
 import ru.yandex.practicum.repository.PostRepository;
 import ru.yandex.practicum.repository.TagRepository;
-import ru.yandex.practicum.service.config.PostServiceTestConfiguration;
 import ru.yandex.practicum.service.impl.PostServiceImpl;
 
 import java.util.List;
@@ -26,19 +28,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 
-@SpringJUnitConfig(classes = {PostServiceTestConfiguration.class, PostServiceImpl.class})
+@SpringBootTest(classes = {PostMapperImpl.class, CommentMapperImpl.class, PostServiceImpl.class})
+@ActiveProfiles("test")
 public class PostServiceTest {
 
     @Autowired
     private PostService postService;
 
-    @Autowired
+    @MockitoBean
     private PostRepository postRepository;
 
-    @Autowired
+    @MockitoBean
     private CommentRepository commentRepository;
 
-    @Autowired
+    @MockitoBean
     private TagRepository tagRepository;
 
     @Test

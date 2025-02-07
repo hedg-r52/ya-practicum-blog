@@ -13,7 +13,7 @@ public class DatabaseHelper {
 
     public void resetDatabase() {
         jdbcTemplate.update("DROP ALL OBJECTS", Map.of());
-        jdbcTemplate.update("RUNSCRIPT FROM 'classpath:test-schema.sql'", Map.of());
+        jdbcTemplate.update("RUNSCRIPT FROM 'classpath:schema-test.sql'", Map.of());
 
         jdbcTemplate.update("""
                 INSERT INTO posts(name, image, content, likes)
