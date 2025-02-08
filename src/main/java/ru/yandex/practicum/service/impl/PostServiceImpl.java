@@ -89,16 +89,18 @@ public class PostServiceImpl implements PostService {
     private void enrichPostShortDtos(List<Long> idList, List<PostShortDto> posts) {
         Map<Long, List<Comment>> commentMap = commentRepository.getCommentsByPostIdList(idList);
         Map<Long, List<Tag>> tagMap = tagRepository.findTagsByPostIdList(idList);
-        posts.forEach(post -> {
-            if (commentMap.containsKey(post.getId())) {
-                post.setComments(commentMap.get(post.getId()).size());
-            }
-            if (tagMap.containsKey(post.getId())) {
-            post.setTags(tagMap.get(post.getId()).stream()
-                    .map(Tag::getTag)
-                    .collect(Collectors.joining(",")));
-            }
-        });
+        posts.forEach(post -> enrichPost(post, commentMap, tagMap));
+    }
+
+    private static void enrichPost(PostShortDto post, Map<Long, List<Comment>> commentMap, Map<Long, List<Tag>> tagMap) {
+        if (commentMap.containsKey(post.getId())) {
+            post.setComments(commentMap.get(post.getId()).size());
+        }
+        if (tagMap.containsKey(post.getId())) {
+        post.setTags(tagMap.get(post.getId()).stream()
+                .map(Tag::getTag)
+                .collect(Collectors.joining(",")));
+        }
     }
 
     @Override

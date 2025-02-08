@@ -3,12 +3,14 @@ package ru.yandex.practicum.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import ru.yandex.practicum.domain.Comment;
 import ru.yandex.practicum.dto.CommentDto;
 import ru.yandex.practicum.mapper.CommentMapper;
+import ru.yandex.practicum.mapper.CommentMapperImpl;
 import ru.yandex.practicum.repository.CommentRepository;
-import ru.yandex.practicum.service.config.CommentServiceTestConfiguration;
 import ru.yandex.practicum.service.impl.CommentServiceImpl;
 
 import java.util.List;
@@ -17,13 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.Mockito.*;
 
-@SpringJUnitConfig(classes = {CommentServiceTestConfiguration.class, CommentServiceImpl.class})
+@SpringBootTest(classes = {CommentMapperImpl.class, CommentServiceImpl.class})
+@ActiveProfiles("test")
 public class CommentServiceTest {
 
     @Autowired
     private CommentService commentService;
 
-    @Autowired
+    @MockitoBean
     private CommentRepository commentRepository;
 
     @BeforeEach
